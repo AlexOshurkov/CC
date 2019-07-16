@@ -50,6 +50,9 @@
     <ClCompile Include="tasks-05.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tasks-01.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="tasks-06.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
