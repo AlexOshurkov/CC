@@ -52,7 +52,7 @@ void printMaze() {
     }
 }
 
-int main() {
+int main6() {
 
     initMaze();
     printMaze();

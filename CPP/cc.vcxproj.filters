@@ -56,5 +56,8 @@
     <ClCompile Include="tasks-06.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tasks-07.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

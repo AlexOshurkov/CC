@@ -246,14 +246,18 @@ double ClockAngle(mytime_t ct)
 	time_t tmt = chrono::system_clock::to_time_t(ct);
 	return ahm;
 }
+int main2(int argc, char* argv[]);
+int main3(int argc, char* argv[]);
+int main4(int argc, char* argv[]);
+int main5(int argc, char* argv[]);
+int main6(int argc, char* argv[]);
+int main7(int argc, char* argv[]);
 
-int main1(int argc, char* argv[])
+
+int main(int argc, char* argv[])
 {
 	//ClockAngle(chrono::system_clock::now());
-	string t;
-
-
-    cin >> t;
+	main7(argc, argv);
 	return 0;
 }
 
