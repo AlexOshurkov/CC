@@ -3,6 +3,8 @@
 
 using namespace std;
 
+namespace nm2 {
+
 bool CheckRepeatedSubstr(const string& str, size_t len)
 {
 	if (str.empty())
@@ -215,10 +217,13 @@ void testRegExp()
 
 }
 
+} // namespace main2
 
-int main2() 
+using namespace nm2;
+
+int main2(int, char**)
 {
-	cin.get();
+	TestAlign();
 	return 0;
 }
 

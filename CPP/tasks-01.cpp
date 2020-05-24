@@ -3,6 +3,14 @@
 
 using namespace std;
 
+int main2(int, char**);
+int main3(int, char**);
+int main4(int, char**);
+int main5(int, char**);
+int main6(int, char**);
+int main7(int, char**);
+int main8(int, char**);
+
 size_t StrLen(const char* pstr)
 {
 	const char* beg = pstr;
@@ -246,18 +254,18 @@ double ClockAngle(mytime_t ct)
 	time_t tmt = chrono::system_clock::to_time_t(ct);
 	return ahm;
 }
-int main2(int argc, char* argv[]);
-int main3(int argc, char* argv[]);
-int main4(int argc, char* argv[]);
-int main5(int argc, char* argv[]);
-int main6(int argc, char* argv[]);
-int main7(int argc, char* argv[]);
 
 
-int main(int argc, char* argv[])
+
+int main(int argc, char** argv)
 {
 	//ClockAngle(chrono::system_clock::now());
+	//PrintFibo(10);
+	//StringTest();
+	//main2(argc, argv);
+	main5(argc, argv);
 	main7(argc, argv);
+	main8(argc, argv);
 	return 0;
 }
 

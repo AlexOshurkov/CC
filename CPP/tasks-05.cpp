@@ -36,13 +36,11 @@ void printInOrder(Node* n) {
     if (n == nullptr)
         return;
 
-    if (n->l != nullptr)
-        printInOrder(n->l);
+    printInOrder(n->l);
 
     cout << n->v << ", ";
 
-    if (n->r != nullptr)
-        printInOrder(n->r);
+    printInOrder(n->r);
 }
 
 void printPreOrder(Node* n) {
@@ -52,11 +50,8 @@ void printPreOrder(Node* n) {
 
     cout << n->v << ", ";
 
-    if (n->l != nullptr)
-        printPreOrder(n->l);
-
-    if (n->r != nullptr)
-        printPreOrder(n->r);
+    printPreOrder(n->l);
+    printPreOrder(n->r);
 }
 
 void printPostOrder(Node* n) {
@@ -64,11 +59,8 @@ void printPostOrder(Node* n) {
     if (n == nullptr)
         return;
 
-    if (n->l != nullptr)
-        printPostOrder(n->r);
-
-    if (n->r != nullptr)
-        printPostOrder(n->l);
+    printPostOrder(n->l);
+    printPostOrder(n->r);
 
     cout << n->v << ", ";
 }
@@ -146,8 +138,10 @@ void testUCSubstr() {
         cout << "\nCase: " << v << ", max substr: " << fineLongestUCSubstr(v, 3);
 }
 
-int main5() {
+int main5(int, char**) {
+    cout << "\n *** main-5 ***";
 
-    testUCSubstr();
+    //testTree();
+    //testUCSubstr();
     return 0;
 }

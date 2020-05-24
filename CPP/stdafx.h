@@ -26,4 +26,14 @@
 
 using namespace std;
 
+struct SLNode {
+	int val = 0;
+	SLNode* next = nullptr;
+};
+
+typedef int util_t;
+
+SLNode* createSLList(const vector<util_t>);
+void printSLList(const SLNode*);
+
 // TODO: reference additional headers your program requires here

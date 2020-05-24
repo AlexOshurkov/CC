@@ -124,7 +124,7 @@ void TestRemoveChar()
 	}
 }
 
-int main3(int argc, char* argv[]) 
+int main3(int, char**)
 {
 	TestRemoveChar();
 	TestBalancePar();
