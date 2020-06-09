@@ -41,13 +41,6 @@ void WriteVals(const string& fname, const vector<float>& vals)
 		out << val << "\n";
 }
 
-vector<string> SplitString(const string& str, const string& delim)
-{
-	regex rg(delim);
-	sregex_token_iterator it(str.begin(), str.end(), rg, 0);
-	return vector<string>(it, sregex_token_iterator());
-}
-
 void StreamTest()
 {
 	vector<string> vals(SplitString("+12 -323 2.34;\n546\n;abc\ndef", "[\n][0-9]+[\n]"));

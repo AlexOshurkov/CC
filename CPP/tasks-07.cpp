@@ -149,16 +149,6 @@ using namespace std; // this is only for simplification for this time
 
 typedef vector<string> strings_t;
 
-vector<string> SplitString2(const string& str, const string& delim)
-{
-	regex rg(delim);
-	sregex_token_iterator it(str.begin(), str.end(), rg, -1);
-	vector<string> res(it, sregex_token_iterator());
-	res.erase(remove(res.begin(), res.end(), ""), res.end());
-	return res;
-
-}
-
 struct node_t{
 	int val;
 	node_t* l;
@@ -437,23 +427,17 @@ double mysqrt(double val, double acc = 0.01) {
 	if (val <= 0)
 		return numeric_limits<double>::quiet_NaN();
 
-	double a = 1, b = val;
-
-	if (val < 1)
-		swap(a, b);
-
-	double pivot = 1;
+	double a = 0, b = val < 1 ? 1 : val;
+	double pivot = (a + b) / 2.0;
 
 	while (abs(pivot * pivot - val) > acc) {
-		pivot = (a + b) / 2.0;
-
-		if (abs(pivot * pivot - val) <= acc)
-			break;
 
 		if (pivot * pivot > val)
 			b = pivot;
 		else
 			a = pivot;
+
+		pivot = (a + b) / 2.0;
 	}
 
 	return pivot;
@@ -602,13 +586,6 @@ int testStream()
 	return 0;
 }
 
-
-//  Graph related
-struct GNode {
-	bool isVisited;
-	int val;
-	vector<GNode*> gnodes;
-};
 
 void PrintDFS(GNode* gnode) {
 	if (gnode == nullptr || gnode->isVisited)
@@ -789,24 +766,102 @@ void testCalc() {
 
 }
 
+int findBinBegin(const vector<int>& vals) {
+	if (vals.empty())
+		return -1;
+
+	int a = 0;
+	int b = vals.size() - 1;
+
+	while (a < b) {
+		if (vals[a] < vals[b])
+			break;
+
+		int p = a + ((b - a) / 2);
+
+		if (p == a) 
+			a = b;
+		else
+		{
+			if (vals[a] > vals[p])
+				b = p;
+			else
+				a = p;
+		}
+	}
+
+	return a;
+}
+
+int getBinEl(const vector<int>& vals, int idx, int offs) {
+	return offs > 0 ? vals[(idx + offs) % vals.size()] : vals[idx];
+}
+
 int binSearch(const vector<int>& vals, int val) {
 
 	if (vals.empty())
 		return -1;
 
-	return -1;
+	const int ofs = findBinBegin(vals);
+
+	if (ofs == -1)
+		return -1;
+
+	int a = 0;
+	int b = vals.size() - 1;
+
+	while (a < b) {
+		int p = a + (b - a) / 2;
+
+		if (val == getBinEl(vals, p, ofs)) {
+			a = p;
+			break;
+		}
+			
+		if (a == p) {
+			a = b;
+			break;
+		}
+
+		if (val > getBinEl(vals, p, ofs))
+			a = p;
+		else
+			b = p;
+	}
+
+	return getBinEl(vals, a, ofs) == val ? (a + ofs) % vals.size() : -1;
 }
 
 void testBinSearch() {
+	vector<vector<int>> tcases{ 
+		{}, {1}, {1,2}, {2,1},
+		{1,2,3,4}, {4,1,2,3}, {3,4,1,2}, {2,3,4,1},
+		{1,2,3}, {3, 1,2}, {2, 3, 1},
+		{1,2,3,4,5,6,7,10}, {7,1,2,3,4,5,6}, {6,7,1,2,3,4,5}, {5,6,7,1,2,3,4},
+		{4,5,6,7,1,2,3}, {3,4,5,6,7,1,2}, {2,3,4,5,6,7,1} };
 
-	vector < pair<vector<int>, int>> cases{ {{}, 1}, {{1}, 1}, {{1}, 2} };
+	//cout << "\n   search dedicated: " << 1 << ", found: [" << binSearch(tcases[2], 1) << "] ";
+	//return;
 
-	for (const auto& v : cases) {
-		cout << "\ncase: arr: ";
-		for (const auto& v2 : v.first)
+	for (const auto& v : tcases) {
+		cout << "\ncase: vals: ";
+		for (const auto& v2 : v)
 			cout << v2 << " ";
 
-		cout << ", search: " << v.second << ", found: [" << binSearch(v.first, v.second) << "] ";
+		//int ofs = findBinBegin(v);
+		//cout << "\n begins: [" << ofs << "] = " << (ofs == -1 ? -1 : v[ofs]);
+		//for (int i = 0; i < v.size(); ++i)
+		//	cout << "\n    a[" << i << "] = " << getBinEl(v, i, ofs);
+
+		for (const auto& v2 : v) {
+			
+			int res = binSearch(v, v2);
+			cout << "\n   search: " << v2 << ", found: [" <<  res << "] " << (res == -1 ? "\t\tERROR" : "\t\tok");
+		}
+
+		cout << "\n   search nonexisting: " << 0 << ", found: [" << binSearch(v, 0) << "] ";
+		cout << "\n   search nonexisting: " << 999 << ", found: [" << binSearch(v, 99) << "] ";
+
 	}
 }
 
@@ -955,7 +1010,6 @@ void testMatrix() {
 int main7(int argc, char** argv)
 {
 	cout << "\n *** main-7 ***";
-	vector<string> str = SplitString2("abc,asd, zxc, ABC, ASD, ZXC,.", "[^a-zA-Z]");
 	
 	//testMemPool();
 	//testNodesDelete();

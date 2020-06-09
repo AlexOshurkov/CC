@@ -221,7 +221,6 @@ void reorderListNodes2(SLNode*& n) {
 	}
 
 	lon->next = fen;
-
 }
 
 void reorderListNodes(SLNode*& n) {
@@ -279,6 +278,112 @@ void testListReorder() {
 	}
 }
 
+
+void testSplitString() {
+	vstrings_t tcases{ "", "a", "aa bb", "aa    bb    cc" };
+	for (const auto& v : tcases) {
+		cout << "\n\"" << v << "\" --> ";
+
+		for (const auto& v2 : SplitString(v, " "))
+			cout << "\"" << v2 << "\", ";
+	}
+}
+
+void fillGrid(vector<vector<int>>& grid, size_t x, size_t y, int oldVal, int newVal) {
+	
+	if (oldVal == newVal)
+		return;
+
+	queue<pair<size_t, size_t>> pix;	
+	pix.push(pair<size_t, size_t>(x, y));
+
+	while (!pix.empty()) {
+
+		auto cx = pix.front().first;
+		auto cy = pix.front().second;
+
+		if (grid[cy][cx] == oldVal) {
+			grid[cy][cx] = newVal;
+
+			if (cx > 0)
+				pix.push(pair<size_t, size_t>(cx - 1, cy));
+
+			if (cy > 0)
+				pix.push(pair<size_t, size_t>(cx, cy - 1));
+
+			if (cx < grid[0].size() - 1)
+				pix.push(pair<size_t, size_t>(cx + 1, cy));
+
+			if (cy < grid.size() - 1)
+				pix.push(pair<size_t, size_t>(cx, cy + 1));
+		}
+
+		pix.pop();
+	}
+}
+
+// amazon
+int getNumIslands(vector<vector<int>> grid) {
+	
+	if (grid.empty() || grid[0].empty())
+		return 0;
+
+	size_t xsize = grid[0].size();
+	size_t ysize = grid.size();
+
+	size_t cnt = 0;
+
+	for (size_t cy = 0; cy < ysize; ++cy)
+		for (size_t cx = 0; cx < xsize; ++cx) 
+			if (grid[cy][cx] == 1) {
+				++cnt;
+				fillGrid(grid, cx, cy, 1, cnt + 10);
+			}
+
+	return cnt;
+}
+
+void testIslands() {
+	vector<vector<vector<int>>> tcases =
+	{
+		{
+			{{}},
+		},
+		{
+			{{1}},
+		},
+		{
+			{
+				{1,1,1},
+				{1,1,1},
+				{1,1,1}
+			},
+		},
+		{
+			{
+				{1,0,1},
+				{0,1,0},
+				{1,0,1}
+			},
+		},
+		{
+			{
+				{1, 1, 0, 0, 0, 1},
+				{0, 0, 1, 0, 0, 1},
+				{1, 0, 1, 1, 0, 0},
+				{1, 1, 0, 1, 1, 0},
+				{0, 1, 0, 0, 1, 1}
+			}
+		}
+	};
+
+	for (auto& v : tcases) {
+		cout << "\n -----------";
+		printGrid<int>(v);
+		cout << "\n Num of islands: " << getNumIslands(v);
+	}
+
+}
 int main8(int argc, char** argv)
 {
 	cout << "\n *** main-8 ***";
@@ -287,6 +392,9 @@ int main8(int argc, char** argv)
 	//testCallback();
 	//testPhone();
 	//testRemoveChar();
-	testListReorder();
+	//testListReorder();
+	//testSplitString();
+	testIslands();
+
 	return 0;
 }

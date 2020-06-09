@@ -26,14 +26,36 @@
 
 using namespace std;
 
+typedef int util_t;
+typedef vector<string> vstrings_t;
+
 struct SLNode {
-	int val = 0;
+	util_t val = util_t();
 	SLNode* next = nullptr;
 };
 
-typedef int util_t;
+struct DLNode : public SLNode {
+	SLNode* prev = nullptr;
+};
+
+struct BTNode {
+	util_t val = util_t();
+	SLNode* l = nullptr;
+	SLNode* r = nullptr;
+};
+
+struct GNode {
+	bool isVisited = false;
+	util_t val = util_t();
+	vector<GNode*> gnodes;
+};
 
 SLNode* createSLList(const vector<util_t>);
 void printSLList(const SLNode*);
 
-// TODO: reference additional headers your program requires here
+template <typename T>
+extern void printGrid(const vector<vector<T>>& grid, pair<T, char> subst = pair<T, char>(0, ' '));
+
+
+
+vstrings_t SplitString(const string& str, const string& delim);
