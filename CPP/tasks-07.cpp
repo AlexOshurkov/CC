@@ -598,6 +598,7 @@ void PrintDFS(GNode* gnode) {
 
 	cout << gnode->val << ", ";
 }
+
 void PrintBFS(GNode* gnode) {
 
 	queue<GNode*> cnodes;
@@ -616,7 +617,6 @@ void PrintBFS(GNode* gnode) {
 		for (auto& ccnode : cnode->gnodes)
 			if (!ccnode->isVisited)
 				cnodes.push(ccnode);
-
 	}
 }
 
@@ -990,7 +990,7 @@ void freeMatrix(double** matrix) {
 
 void testMatrix() {
 
-	const size_t rr = 7, cc = 5;
+	const size_t rr = 5, cc = 5;
 	double** m = allocMatrix(rr, cc);
 
 	for (int r = 0; r < rr; ++r)
@@ -1004,6 +1004,8 @@ void testMatrix() {
 		for (int c = 0; c < cc; ++c)
 			cout << m[r][c] << "  ";
 	}
+
+	freeMatrix(m);
 }
 
 

@@ -394,7 +394,7 @@ int main8(int argc, char** argv)
 	//testRemoveChar();
 	//testListReorder();
 	//testSplitString();
-	testIslands();
+	//testIslands();
 
 	return 0;
 }

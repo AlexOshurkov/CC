@@ -352,10 +352,13 @@ void testRoute() {
 
 int main4(int, char**)
 {
+    cout << "\n *** main-4 ***";
+
     //testBitsSum();
     //testPerm();
     //testMoveZero();
     //testRoute();
+    //testPerm();
 
 
     return 0;

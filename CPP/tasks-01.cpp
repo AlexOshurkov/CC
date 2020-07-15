@@ -263,6 +263,7 @@ int main(int argc, char** argv)
 	//PrintFibo(10);
 	//StringTest();
 	//main2(argc, argv);
+	main4(argc, argv);
 	main5(argc, argv);
 	main7(argc, argv);
 	main8(argc, argv);
