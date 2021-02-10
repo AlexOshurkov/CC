@@ -620,6 +620,43 @@ void PrintBFS(GNode* gnode) {
 	}
 }
 
+bool findGraphLoopImpl(GNode* gnode, set<GNode*>& gnodes, stack<GNode*>& gtrace) {
+	if (gnode == nullptr)
+		return false;
+
+	gtrace.push(gnode);
+
+	if (gnodes.find(gnode) != gnodes.end())
+		return true;
+
+	gnodes.insert(gnode);
+
+	for (auto& cnode : gnode->gnodes)
+		if (findGraphLoopImpl(cnode, gnodes, gtrace))
+			return true;
+
+	gtrace.pop();
+	gnodes.erase(gnode);
+	return false;
+}
+
+bool findGraphLoop(GNode* gnode) {
+	set<GNode*> gnodes;
+	stack<GNode*> gtrace;
+	findGraphLoopImpl(gnode, gnodes, gtrace);
+
+	if (!gtrace.empty()) {
+		cout << "\nFound loop in the graph: ";
+		while (!gtrace.empty()) {
+			cout << gtrace.top()->val << ", " ;
+			gtrace.pop();
+		}
+		return true;
+	}
+
+	return false;
+}
+
 void testGraph() {
 	//	Create a graph
 	GNode g1{ false, 1 };
@@ -633,22 +670,21 @@ void testGraph() {
 	GNode g9{ false, 9 };
 	GNode g10{ false, 10};
 
-	g1.gnodes = { &g2, &g3 };
-	g2.gnodes = { &g1 };
-	g3.gnodes = { &g1, &g4, &g5 };
-	g4.gnodes = { &g3, &g5, &g6 };
-	g5.gnodes = { &g3, &g4, &g7 };
-	g6.gnodes = { &g4, &g8 };
-	g7.gnodes = { &g4, &g5 };
-	g8.gnodes = { &g6, &g9 };
-	g9.gnodes = { &g8, &g10 };
-	g10.gnodes = { &g9 };
+	g1.gnodes = { &g2 };
+	g2.gnodes = { &g3, &g4 };
+	g3.gnodes = { &g4, &g5 };
+	g4.gnodes = { &g5, &g6 };
+	g6.gnodes = { &g7, &g3 };
+	g7.gnodes = { &g4 };
 
-	cout << "\nPrintDFS: ";
-	PrintDFS(&g1);
+	//cout << "\nPrintDFS: ";
+	//PrintDFS(&g1);
 
 	//cout << "\nPrintBFS: ";
-	PrintBFS(&g1);
+	//PrintBFS(&g1);
+
+	cout << "\nCheck graph loop: ";
+	findGraphLoop(&g1);
 }
 
 string get_next_token(const string& str, string::const_iterator& it) {

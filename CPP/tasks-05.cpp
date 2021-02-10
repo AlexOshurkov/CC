@@ -83,7 +83,7 @@ void testTree() {
     printPostOrder(root);
 }
 
-string fineLongestUCSubstr(const string& str, size_t numuc) {
+string findLongestUCSubstr(const string& str, size_t numuc) {
     unordered_set<char> found_chars;
 
     string substr;  //  current substring
@@ -135,7 +135,7 @@ void testUCSubstr() {
     };
 
     for (const auto& v : cases)
-        cout << "\nCase: " << v << ", max substr: " << fineLongestUCSubstr(v, 3);
+        cout << "\nCase: " << v << ", max substr: " << findLongestUCSubstr(v, 3);
 }
 
 int main5(int, char**) {

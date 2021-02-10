@@ -10,6 +10,8 @@ int main5(int, char**);
 int main6(int, char**);
 int main7(int, char**);
 int main8(int, char**);
+int main9(int, char**);
+int main10(int, char**);
 
 size_t StrLen(const char* pstr)
 {
@@ -267,6 +269,8 @@ int main(int argc, char** argv)
 	main5(argc, argv);
 	main7(argc, argv);
 	main8(argc, argv);
+	main9(argc, argv);
+	main10(argc, argv);
 	return 0;
 }
 
