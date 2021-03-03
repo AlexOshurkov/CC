@@ -184,6 +184,7 @@ void testLRU() {
 }
 
 typedef pair<int, int> interval_t;
+typedef set<interval_t> intervals_t;
 
 bool isIntervalOverlapped(interval_t int1, interval_t int2)
 {
@@ -204,33 +205,113 @@ interval_t mergeIntervals(interval_t int1, interval_t int2)
     return interval_t(int1.first, int1.second > int2.second ? int1.second : int2.second);
 }
 
+bool isIntValid(const interval_t& intv)
+{
+    return intv.first < intv.second;
+}
+
 string printInterval(interval_t intv)
 {
-    return "(" + std::to_string(intv.first) + ", " + std::to_string(intv.second) + ")";
+    return "(" + std::to_string(intv.first) + "," + std::to_string(intv.second) + ")";
 }
+
+string printIntervals(const intervals_t& ints)
+{
+    stringstream ss;
+
+    ss << "[";
+    for (const auto& v : ints)
+        ss << (v == *ints.begin() ? "" : ", ") << printInterval(v);
+    ss << "]";
+
+    return ss.str();
+}
+
+intervals_t mergeIntervals1(const intervals_t ints, interval_t intv)
+{
+    intervals_t nints;
+
+    for (const auto& v : ints)
+    {
+        if (isIntValid(intv) && isIntervalOverlapped(v, intv)) {
+            nints.insert(mergeIntervals(v, intv));
+            intv = interval_t{ 0,0 };
+            continue;
+        }
+        else {
+            if (nints.empty() || !isIntervalOverlapped(*nints.rbegin(), v))
+                nints.insert(v);
+            else {
+                interval_t lint = *(--nints.end());
+                nints.erase(--nints.end());
+                nints.insert(mergeIntervals(v, lint));
+            }
+        }
+    }
+
+    return nints;
+ }
 
 void testIntervals()
 {
-    set<interval_t> ints1{ {1, 3}, { 3, 7 }, {2, 4} };
-    set<interval_t> ints2{ {-11, 2}, { 3, 17 }, {6, 10} };
+    intervals_t ints1{ {0,2}, {5,7}, {9, 11} };
+    cout << "\n Base interval: " << printIntervals(ints1);
 
+    for (int i1 = -1, i2 = -1; i1 < 12 || i2 < 12; ) {
+        if (i2 < 12)
+            ++i2;
+        else
+            ++i1;
 
-    for (auto v1 : ints1) 
-        for (auto v2 : ints2) 
-        {
-            cout << "\n " << printInterval(v1) << ", " << printInterval(v2);
-            cout << "\n  overlap: " << isIntervalOverlapped(v1, v2);
-            cout << "\n  merged : " << printInterval(mergeIntervals(v1, v2));
+        interval_t newint{ i1, i2 };
+        cout << "\n    Interval: " << printInterval(newint);
+        cout << "\n    Merged interval: " << printIntervals(mergeIntervals1(ints1, newint));
     }
+}
+
+size_t calcFiboR(size_t n) {
+    
+    static size_t ncache[100];
+
+    if (n <= 1)
+        return n;
+
+    if (ncache[n] == 0)
+        ncache[n] = calcFiboR(n - 1) + calcFiboR(n - 2);
+
+    return ncache[n];
+}
+
+size_t calcFibo(size_t n) {
+
+    size_t a = 0, b = 1;
+
+    while (n > 0) {
+        --n;
+        size_t ta = a + b;
+        a = b;
+        b = ta;
+    }
+
+    return a;
+}
+
+void testFiboR() {
+
+    for (size_t i = 0; i < 60; ++i)
+        cout << "\n  Fibo [" << i << "]: rec: " << calcFiboR(i) << ", iter: " << calcFibo(i) ;
+
 }
 
 int main10(int argc, char** argv)
 {
     cout << "\n *** main-10 ***";
+
     //testCards();
     //testSubstringsCount();
     //testLRU();
-    testIntervals();
+    //testIntervals();
+    testFiboR();
 
     return 0;
 }
