@@ -287,10 +287,10 @@ size_t calcFibo(size_t n) {
     size_t a = 0, b = 1;
 
     while (n > 0) {
-        --n;
-        size_t ta = a + b;
-        a = b;
-        b = ta;
+--n;
+size_t ta = a + b;
+a = b;
+b = ta;
     }
 
     return a;
@@ -299,8 +299,149 @@ size_t calcFibo(size_t n) {
 void testFiboR() {
 
     for (size_t i = 0; i < 60; ++i)
-        cout << "\n  Fibo [" << i << "]: rec: " << calcFiboR(i) << ", iter: " << calcFibo(i) ;
+        cout << "\n  Fibo [" << i << "]: rec: " << calcFiboR(i) << ", iter: " << calcFibo(i);
 
+}
+
+typedef unordered_map<float, int> valmap_t;
+
+// codility
+int solution(vector<int>& X, vector<int>& Y) {
+    // write your code in C++14 (g++ 6.2.0)
+
+    valmap_t vm; // map of values and occurences
+    int maxocc = 0; // current max occurrence
+
+    vector<int>::const_iterator itx = X.begin();
+    vector<int>::const_iterator ity = Y.begin();
+
+    while (itx != X.end()) {
+
+        float newval = float(*itx) / float(*ity);
+        valmap_t::iterator mit = vm.find(newval);
+        if (mit == vm.end()) {
+            vm.insert(pair<float, int>(newval, 1));
+            if (maxocc == 0)
+                maxocc = 1;
+        }
+        else {
+            mit->second++;
+            if (maxocc < mit->second)
+                maxocc = mit->second;
+        }
+
+        ++itx;
+        ++ity;
+    }
+    return maxocc;
+}
+
+//codility
+int solution2(vector<int>& A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int bitcalc[sizeof(int) * 8]; // assume 32bit integers, 32 should be something like sizeof(int) * 8 for platform independency 
+
+    std::memset(bitcalc, 0, sizeof(bitcalc));
+
+    int maxsubs = 0;
+    for (auto v : A) {
+        int bitnum = 0;
+        while (v > 0) {
+            if (v & 1)
+                ++bitcalc[bitnum];
+
+            if (bitcalc[bitnum] > maxsubs)
+                maxsubs = bitcalc[bitnum];
+            ++bitnum;
+
+            v >>= 1;
+        }
+    }
+    return maxsubs;
+}
+
+// print all substrings if any words have substitution
+typedef list<string> strq_t;
+typedef unordered_map<string, strq_t> wordmap_t;
+
+void printAllWordsImpl(strq_t pref, strq_t postf, const wordmap_t& wordmap);
+void printAllWords(string str, wordmap_t& wordmap) {
+    strq_t pref;
+    strq_t postf;
+    stringstream ss(str);
+
+    while (!ss.eof()) {
+        string sval;
+        ss >> sval;
+        postf.push_back(sval);
+    }
+
+    printAllWordsImpl(pref, postf, wordmap);
+}
+
+void printAllWordsImpl(strq_t pref, strq_t postf, const wordmap_t& wordmap) {
+
+    if (postf.empty()) {
+        cout << "\n";
+
+        for (const auto& prefv : pref)
+            cout << prefv << " ";
+    } 
+    else {
+
+        wordmap_t::const_iterator wmit = wordmap.find(postf.front());
+        if (wmit == wordmap.end()) {
+            pref.push_back(postf.front());
+            postf.pop_front();
+            printAllWordsImpl(pref, postf, wordmap);
+        }
+        else {
+            postf.pop_front();
+            for (const auto& rword : wmit->second) {
+                pref.push_back(rword);
+                printAllWordsImpl(pref, postf, wordmap);
+                pref.pop_back();
+            }
+        }
+    }
+}
+
+void testPrintAllWords() {
+    wordmap_t wordmap{ {"cc", {"cc1", "cc2"} }, {"dd", {"dd1", "dd2"}} };
+    printAllWords("aa bb cc dd ee cc", wordmap);
+}
+
+
+unordered_set<string> permcheck;
+
+void printPermutationImpl(string pref, string postf) {
+
+    if (postf.empty()) {
+        if (permcheck.find(pref) == permcheck.end())
+            permcheck.insert(pref);
+        else
+            throw std::exception(("The permutation is already exist: " + pref).c_str());
+        cout << "\n" << pref;
+
+    }
+    else {
+        for (size_t pos = 0; pos < postf.size(); ++pos) {
+
+            string npostf = postf;
+            printPermutationImpl(pref + postf[pos], npostf.erase(pos, 1));
+        }
+    }
+
+}
+void printPermutations(string str) {
+    permcheck.clear();
+    printPermutationImpl("", str);
+    cout << "\nNumber of unique perm: " << permcheck.size();
+}
+
+void testPrintPermutations() {
+    string str = "1234";
+    printPermutations(str);
 }
 
 int main10(int argc, char** argv)
@@ -311,7 +452,9 @@ int main10(int argc, char** argv)
     //testSubstringsCount();
     //testLRU();
     //testIntervals();
-    testFiboR();
+    //testFiboR();
+    //testPrintAllWords();
+    //testPrintPermutations();
 
     return 0;
 }

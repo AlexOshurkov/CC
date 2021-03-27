@@ -94,7 +94,7 @@ void printPoolStat(const MemPool& mp) {
 	mp.PrintStat();
 }
 
-void testMemPool() {
+static void testMemPool() {
 
 	MemPool mp(0x40, 5);
 	cout << "\nTotal blocks: " << mp.getTotalBlocks() << "\n";

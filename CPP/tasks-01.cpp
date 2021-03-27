@@ -12,6 +12,7 @@ int main7(int, char**);
 int main8(int, char**);
 int main9(int, char**);
 int main10(int, char**);
+int main11(int, char**);
 
 size_t StrLen(const char* pstr)
 {
@@ -257,7 +258,24 @@ double ClockAngle(mytime_t ct)
 	return ahm;
 }
 
+char* reverseString(char* pstr, size_t size) {
+	char* pend = pstr + size - 1;
+	while (pstr < pend) {
+		char t = *pstr;
+		*pstr = *pend;
+		*pend = t;
+		++pstr;
+		--pend;
+	}
 
+	return pstr;
+}
+
+void  swapxor(int& a, int& b) {
+	a = a ^ b;
+	b = a ^ b;
+	a = a ^ b;
+}
 
 int main(int argc, char** argv)
 {
@@ -271,6 +289,8 @@ int main(int argc, char** argv)
 	main8(argc, argv);
 	main9(argc, argv);
 	main10(argc, argv);
+	main11(argc, argv);
+
 	return 0;
 }
 
