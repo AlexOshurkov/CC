@@ -6,7 +6,7 @@ class mempool_t {
     size_t m_block_size;
     size_t m_num_blocks;
 
-    char* m_block_alloc; // for the simplicty: 'A'-allocated, 'F'-free, we can use bitset to save memory
+    char* m_block_alloc; // for the simplicity: 'A'-allocated, 'F'-free, we can use bitset to save memory
     void* m_stack_mem;
     uint8_t** m_block_stack; // fixed-size stack for quickest searching of free m_block_stack
     uint8_t* m_pool;
@@ -104,16 +104,16 @@ static void testMemPool()
     }
 
     try {
-        cout << "\n\n release lower addres " << (void*)(blocks[bn - 1] - 10) << ": ";
-        mp1.free_block(blocks[bn - 1] - 10); // byeond of mem pool
+        cout << "\n\n release lower addres " << (void*)(blocks[bn - 1] - bs) << ": ";
+        mp1.free_block(blocks[bn - 1] - bs); // byeond of mem pool
     }
     catch (std::exception e) {
         cout << e.what();
     }
 
     try {
-        cout << "\n\n release bigger addres " << (void*)(blocks[0] + 10) << ": ";
-        mp1.free_block(blocks[0]+10); // byeond of mem pool
+        cout << "\n\n release bigger addres " << (void*)(blocks[0] + bs) << ": ";
+        mp1.free_block(blocks[0]+bs); // byeond of mem pool
     }
     catch (std::exception e) {
         cout << e.what();
@@ -154,7 +154,6 @@ static void testMemPool()
             cout << " !!! cannot release block";
         }
     }
-
 }
 
 int main11(int argc, char** argv)
