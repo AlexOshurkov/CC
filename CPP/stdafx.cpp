@@ -49,6 +49,26 @@ void printGrid(const vector<vector<T>>& grid, pair<T, char> subst)
 
 template void printGrid<int>(const vector<vector<int>>&, pair<int, char> );
 
+
+vector<string> SplitString(const string& str)
+{
+	vector<string> strs;
+	stringstream ss(str);
+
+	while (!ss.eof())
+	{
+		string sval;
+		ss >> sval;
+
+		if (sval.empty())
+			break;
+		else
+			strs.push_back(sval);
+	}
+
+	return strs;
+}
+
 vstrings_t SplitString(const string& str, const string& delim)
 {
 	regex rg(delim);
@@ -57,4 +77,5 @@ vstrings_t SplitString(const string& str, const string& delim)
 	res.erase(remove(res.begin(), res.end(), ""), res.end());
 	return res;
 }
+
 

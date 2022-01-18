@@ -13,6 +13,8 @@ int main8(int, char**);
 int main9(int, char**);
 int main10(int, char**);
 int main11(int, char**);
+int main12(int, char**);
+
 
 size_t StrLen(const char* pstr)
 {
@@ -28,25 +30,6 @@ void TestStrLen()
 	size_t len1 = StrLen("");
 	size_t len2 = StrLen("1");
 	size_t len3 = StrLen("1234567890");
-}
-
-vector<string> split_str(const string& str)
-{
-	vector<string> strs;
-	stringstream ss(str);
-
-	while (!ss.eof())
-	{
-		string sval;
-		ss >> sval;
-
-		if (sval.empty())
-			break;
-		else
-			strs.push_back(sval);
-	}
-
-	return strs;
 }
 
 void RegexpTest()
@@ -290,6 +273,7 @@ int main(int argc, char** argv)
 	main9(argc, argv);
 	main10(argc, argv);
 	main11(argc, argv);
+	main12(argc, argv);
 
 	return 0;
 }

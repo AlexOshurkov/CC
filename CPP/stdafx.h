@@ -25,6 +25,7 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
+#include <typeinfo>
 
 using namespace std;
 
@@ -59,5 +60,17 @@ template <typename T>
 extern void printGrid(const vector<vector<T>>& grid, pair<T, char> subst = pair<T, char>(0, ' '));
 
 
-
+vstrings_t SplitString(const string& str);
 vstrings_t SplitString(const string& str, const string& delim);
+
+template<typename T>
+void printVector(const vector<T>& arr) {
+	cout << "[";
+
+	bool first = true;
+	for (auto v : arr) {
+		cout << (first ? "" : ", ") << v;
+		first = false;
+	}
+	cout << "]";
+}
